@@ -46,7 +46,7 @@ public class Cell : MonoBehaviour
 
     void OnClick()
     {
-        if(Board.Instance.CheckCell(this.row,this.column))
+        if(Board.Instance.CheckCell(this.row,this.column) && !Board.Instance.result)
         {
             ChangeImage(Board.Instance.currentTurn);
             if(Board.Instance.Check(this.row, this.column))

@@ -11,7 +11,7 @@ public class Board : MonoBehaviour
     public GameObject cellPrefab;
     public string currentTurn = "x";
     public int boardSize;
-    private bool result = false;
+    public bool result = false;
 
     private string[,] matrix;
 
