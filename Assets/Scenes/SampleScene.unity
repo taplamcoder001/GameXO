@@ -481,6 +481,7 @@ MonoBehaviour:
   cellPrefab: {fileID: 7698865357447010685, guid: 97aec594b594a4e41a928804d06ac58b, type: 3}
   currentTurn: x
   boardSize: 50
+  result: 0
 --- !u!4 &1543242990
 Transform:
   m_ObjectHideFlags: 0

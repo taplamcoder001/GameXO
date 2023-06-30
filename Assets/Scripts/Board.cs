@@ -13,6 +13,7 @@ public class Board : MonoBehaviour
     public int boardSize;
     public bool result = false;
 
+    private List<Vector2> coordinates;
     private string[,] matrix;
 
     private void Awake()
@@ -25,16 +26,16 @@ public class Board : MonoBehaviour
     }
     private void Start()
     {
-        matrix = new string[boardSize, boardSize];
+        matrix = new string[boardSize + 1, boardSize + 1];
+        coordinates = new List<Vector2>();
         girdLayout.constraintCount = boardSize;
         CreateBoard();
     }
-
     void CreateBoard()
     {
-        for (int i = 0; i < boardSize; i++)
+        for (int i = 1; i <= boardSize; i++)
         {
-            for (int j = 0; j < boardSize; j++)
+            for (int j = 1; j <= boardSize; j++)
             {
                 Instantiate(cellPrefab, board); // Cell born out in Board
                 Cell.Instance.row = i;
@@ -45,10 +46,35 @@ public class Board : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Undo();
+        }
+    }
+
+    public void Undo()
+    {
+        if (coordinates.Count <= 0)
+        {
+            Debug.Log("Not run");
+        }
+        else
+        {
+            matrix[(int)coordinates[coordinates.Count - 1][0], (int)coordinates[coordinates.Count - 1][1]] = null;
+            if (Cell.Instance.row == (int)coordinates[coordinates.Count - 1][0] && Cell.Instance.column == (int)coordinates[coordinates.Count - 1][1])
+            {
+                Cell.Instance.ChangeImage("null");
+            }
+            Debug.Log(Cell.Instance.row);
+        }
+    }
+
     public bool CheckCell(int row, int column)
     {
         bool hasValues;
-        if(matrix[row,column]==null)
+        if (matrix[row, column] == null)
         {
             hasValues = true;
         }
@@ -61,13 +87,14 @@ public class Board : MonoBehaviour
 
     public bool Check(int row, int column)
     {
-        if (CheckCell(row,column))
+        if (CheckCell(row, column))
         {
-            matrix[row, column] = currentTurn;
+            matrix[row, column] = currentTurn;         /// Save name string currentTurn
+            coordinates.Add(new Vector2(row, column)); /// Save variable coordinates for undo
 
             //Check column
             int count = 0;
-            for (int i = row - 1; i >= 0; i--)  // Check up
+            for (int i = row - 1; i >= 1; i--)  // Check up
             {
                 if (matrix[i, column] == currentTurn)
                 {
@@ -78,7 +105,7 @@ public class Board : MonoBehaviour
                     break;
                 }
             }
-            for (int i = row + 1; i < boardSize; i++)  // Check down
+            for (int i = row + 1; i <= boardSize; i++)  // Check down
             {
                 if (matrix[i, column] == currentTurn)
                 {
@@ -95,7 +122,7 @@ public class Board : MonoBehaviour
             }
 
             count = 0;
-            for (int j = column + 1; j < boardSize; j++)  // Check right
+            for (int j = column + 1; j <= boardSize; j++)  // Check right
             {
                 if (matrix[row, j] == currentTurn)
                 {
@@ -106,7 +133,7 @@ public class Board : MonoBehaviour
                     break;
                 }
             }
-            for (int j = column - 1; j >= 0; j--)  // Check left
+            for (int j = column - 1; j >= 1; j--)  // Check left
             {
                 if (matrix[row, j] == currentTurn)
                 {
@@ -123,7 +150,7 @@ public class Board : MonoBehaviour
             }
 
             count = 0;
-            for (int j = column + 1; j < boardSize; j++)  // Check cheo len phai
+            for (int j = column + 1; j <= boardSize; j++)  // Check cheo len phai
             {
                 if (matrix[row + (column - j), j] == currentTurn)
                 {
@@ -134,7 +161,7 @@ public class Board : MonoBehaviour
                     break;
                 }
             }
-            for (int j = column - 1; j >= 0; j--)  // Check cheo duoi trai
+            for (int j = column - 1; j >= 1; j--)  // Check cheo duoi trai
             {
                 if (matrix[row + (column - j), j] == currentTurn)
                 {
@@ -151,7 +178,7 @@ public class Board : MonoBehaviour
             }
 
             count = 0;
-            for (int j = column - 1; j >= 0; j--)  // Check cheo len trai
+            for (int j = column - 1; j >= 1; j--)  // Check cheo len trai
             {
                 if (matrix[row - (column - j), j] == currentTurn)
                 {
@@ -162,7 +189,7 @@ public class Board : MonoBehaviour
                     break;
                 }
             }
-            for (int j = column + 1; j < boardSize; j++)  // Check cheo duoi phai
+            for (int j = column + 1; j <= boardSize; j++)  // Check cheo duoi phai
             {
                 if (matrix[row - (column - j), j] == currentTurn)
                 {

@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverWindow: {fileID: 3587791044285051318, guid: 5a40f0877bc24c346bf81217ee42304d, type: 3}
+  emtyImage: {fileID: 21300000, guid: dfd133c6631f581498ee0b0f3e9e5fb0, type: 3}
   xImage: {fileID: 21300000, guid: 2bed2d28809933e4491f13921d738aaf, type: 3}
   oImage: {fileID: 21300000, guid: 9918b8b5edd678b4eb22aab21bf3a382, type: 3}
   row: 0

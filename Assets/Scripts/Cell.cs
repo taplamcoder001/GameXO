@@ -8,12 +8,14 @@ public class Cell : MonoBehaviour
     public static Cell Instance { get; private set; }
     public GameObject gameOverWindow;
     private Transform canvas;
+    public Sprite emtyImage;
     public Sprite xImage;
     public Sprite oImage;
     public int row;
     public int column;
     private Image image;
     private Button button;
+    private bool onMenu;
     private void Awake()
     {
         // if(Instance!=null && Instance != this)
@@ -32,15 +34,26 @@ public class Cell : MonoBehaviour
     private void Start() {
         canvas = FindObjectOfType<Canvas>().transform;
     }
-    void ChangeImage(string s)
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Instantiate(gameOverWindow, canvas);
+        }
+    }
+    public void ChangeImage(string s)
     {
         if (s == "x")
         {
             image.sprite = xImage;
         }
-        else
+        else if(s=="o")
         {
             image.sprite = oImage;
+        }
+        else
+        {
+            image.sprite = emtyImage;
         }
     }
 
