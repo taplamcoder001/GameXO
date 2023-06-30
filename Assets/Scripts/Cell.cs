@@ -8,7 +8,6 @@ public class Cell : MonoBehaviour
     public static Cell Instance { get; private set; }
     public GameObject gameOverWindow;
     private Transform canvas;
-    public Sprite emtyImage;
     public Sprite xImage;
     public Sprite oImage;
     public int row;
@@ -47,13 +46,9 @@ public class Cell : MonoBehaviour
         {
             image.sprite = xImage;
         }
-        else if(s=="o")
-        {
-            image.sprite = oImage;
-        }
         else
         {
-            image.sprite = emtyImage;
+            image.sprite = oImage;
         }
     }
 

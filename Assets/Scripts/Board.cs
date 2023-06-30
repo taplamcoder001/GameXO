@@ -12,7 +12,8 @@ public class Board : MonoBehaviour
     public string currentTurn = "x";
     public int boardSize;
     public bool result = false;
-
+    
+    public Sprite emtyImage;
     private List<Vector2> coordinates;
     private string[,] matrix;
 
@@ -40,7 +41,7 @@ public class Board : MonoBehaviour
                 Instantiate(cellPrefab, board); // Cell born out in Board
                 Cell.Instance.row = i;
                 Cell.Instance.column = j;
-                matrix[i, j] = null;
+                matrix[i, j] = "";
             }
 
         }
@@ -48,33 +49,31 @@ public class Board : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && coordinates.Count >0)
         {
             Undo();
         }
     }
 
-    public void Undo()
+    void Undo()
     {
-        if (coordinates.Count <= 0)
+        currentTurn = matrix[(int)coordinates[coordinates.Count - 1][0], (int)coordinates[coordinates.Count - 1][1]];
+        matrix[(int)coordinates[coordinates.Count - 1][0], (int)coordinates[coordinates.Count - 1][1]] = "";
+
+        foreach(Transform i in board.transform.GetComponentInChildren<Transform>())
         {
-            Debug.Log("Not run");
-        }
-        else
-        {
-            matrix[(int)coordinates[coordinates.Count - 1][0], (int)coordinates[coordinates.Count - 1][1]] = null;
-            if (Cell.Instance.row == (int)coordinates[coordinates.Count - 1][0] && Cell.Instance.column == (int)coordinates[coordinates.Count - 1][1])
+            if (i.transform.GetComponent<Cell>().row == (int)coordinates[coordinates.Count - 1][0] && i.transform.GetComponent<Cell>().column == (int)coordinates[coordinates.Count - 1][1])
             {
-                Cell.Instance.ChangeImage("null");
+                i.transform.GetComponent<Image>().sprite =  emtyImage;
             }
-            Debug.Log(Cell.Instance.row);
         }
+        coordinates.RemoveAt(coordinates.Count-1);
     }
 
     public bool CheckCell(int row, int column)
     {
         bool hasValues;
-        if (matrix[row, column] == null)
+        if (matrix[row, column] == "")
         {
             hasValues = true;
         }
